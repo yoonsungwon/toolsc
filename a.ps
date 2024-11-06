@@ -1,0 +1,9 @@
+# 모든 클러스터 목록을 가져옴
+$clusters = aws ecs list-clusters --query "clusterArns" --output text
+
+# 각 클러스터에서 작업 목록을 가져옴
+foreach ($cluster in $clusters -split " ") {
+    Write-Output "Cluster: $cluster"
+    $tasks = aws ecs list-tasks --cluster $cluster --query "taskArns" --output text
+    Write-Output "Tasks: $tasks"
+}
